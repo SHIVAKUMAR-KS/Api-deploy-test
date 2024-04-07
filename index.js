@@ -8,7 +8,8 @@ import { userRegisterSchema , userLoginSchema } from './validation/UserValidatio
 import User from './model/User.js';
 import tokenValidity from './middlewares/tokenValidity.js';
 import TodoTask from './model/TodoTask.js';
-import todoValidationSchema from './validation/TodoValidation.js';
+import TodoValidation from './validation/TodoValidation.js';
+
 
 dotenv.config();
 const app = express();
