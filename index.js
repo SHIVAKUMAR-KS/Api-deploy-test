@@ -128,18 +128,23 @@ app.post('/pages/todos', async (req, res) => {
 });
 
 
+
 app.put('/pages/todos/:id', async (req, res) => {
     const { id } = req.params;
     const { title, description } = req.body;
-    const updateTodo = await TodoTask.findByIdAndUpdate(id, { title, description });
-    console.log(updateTodo);
-    if (updateTodo) {
-      res.json({ status: 200, msg: "Todo updated successfully" });
-    } else {
-      res.json({ status: 500, msg: "Cannot update your todo" });
+    try {
+        const updatedTodo = await TodoTask.findByIdAndUpdate(id, { title, description }, { new: true });
+        if (updatedTodo) {
+            res.json({ status: 200, msg: "Todo updated successfully", updatedTodo });
+        } else {
+            res.json({ status: 404, msg: "Todo not found" });
+        }
+    } catch (error) {
+        console.error("Error updating todo:", error);
+        res.status(500).json({ status: 500, msg: "Internal server error" });
     }
 });
-  
+
 
 
 app.delete('/pages/todos/:id', async (req, res) => {
